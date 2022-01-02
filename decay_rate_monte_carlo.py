@@ -45,13 +45,11 @@ import numpy as np
 lmbda = 0.01                # Decay constant (lambda)
 Ni = 10000                  # Initial number of nuclei
 N_list = [Ni]               # List of non-decayed nuclei amounts
-
 ti = 0                      # Start time
 tf = 1000                   # End time
 t = np.arange(ti, tf, 1)    # List of time values from ti to tf in steps of 1
 
 rm.seed()                   # Initialise the random number generator
-
 
 # Functions:
 def slope(t, N, lmbda):
@@ -108,8 +106,7 @@ def monte_carlo(t, N_list, lmbda):
     # Return list of N values
     return N_list
 
-
-# Calculations:
+""" Main Logic: """
 # Monte Carlo method
 monte_carlo_res = monte_carlo(t, N_list, lmbda)
 
@@ -121,8 +118,7 @@ sol = solve_ivp(slope,               # Slope function
                 t_eval=t,            # Specify t points
                 method='LSODA')      # Integration method set to LSODA (ODEINT method)
 
-
-# Plot pyplot graph:
+""" Plot """
 # Set x-axis label
 plt.xlabel('Time')
 # Set y-axis label
