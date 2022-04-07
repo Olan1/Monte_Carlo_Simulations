@@ -61,6 +61,10 @@ rm.seed()
 # Function to generate and scale random variable between specifified range
 def calculate_random_coordinate(range_min, range_max):
     """
+    Calculate a random coordinate within a defined range
+    
+    ...
+    
     Parameters
     ----------
     range_min : TYPE - Float
@@ -78,6 +82,10 @@ def calculate_random_coordinate(range_min, range_max):
 # Calculate height at coordinates x, y
 def calculate_height(x, y):
     """
+    Calculate the height of the function at coordinates x and y
+    
+    ...
+    
     Parameters
     ----------
     x : TYPE - Float
@@ -95,6 +103,7 @@ def calculate_height(x, y):
 # Calculate total volume
 def calculate_vol(base_area, quadrants, xi, xf, yi, yf):
     """
+    Calculate the total volume of the function using a monte carlo method
     Parameters
     ----------
     base_area : TYPE - Float
@@ -112,7 +121,7 @@ def calculate_vol(base_area, quadrants, xi, xf, yi, yf):
     Returns
     -------
     vol : TYPE - Float
-        DESCRIPTION - Total calculated volume of shape
+        DESCRIPTION - Total calculated volume of function
     """
     # Initial volume set to zero
     vol = 0
