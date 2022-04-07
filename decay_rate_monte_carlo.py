@@ -54,6 +54,10 @@ rm.seed()                   # Initialise the random number generator
 # Functions:
 def slope(t, N, lmbda):
     """
+    Calculate the slope for the radioactive decay equation
+    
+    ...
+    
     Parameters
     ----------
     t : TYPE - Int
@@ -75,6 +79,10 @@ def slope(t, N, lmbda):
 
 def monte_carlo(t, N_list, lmbda):
     """
+    Differentiate using a Monte Carlo method
+    
+    ...
+    
     Parameters
     ----------
     t : TYPE - Int
