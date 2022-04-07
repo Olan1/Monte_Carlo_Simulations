@@ -75,6 +75,10 @@ rm.seed()
 # Rhombohedral integration method
 def rhombo(fn, x_steps, xi, xf):
     """
+    Integrate over a defined range using the rhombohedral method
+    
+    ...
+    
     Parameters
     ----------
     fn : TYPE - Function
@@ -107,6 +111,10 @@ def rhombo(fn, x_steps, xi, xf):
 # Monte Carlo integration method
 def monte_carlo_integrate(fn, x_steps, xi, xf):
     """
+    Integrate over a defined range using Monte Carlo integration
+    
+    ...
+    
     Parameters
     ----------
     fn : TYPE - Function
