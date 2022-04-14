@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Monte Carlo 2D Integration of a Half-Sphere
-
 This programme will use 2 different methods of Monte Carlo integration to
 calculate the volume of a half-sphere. Method 1 will divide the area of the
 half-spheres base circle into quadrants of area dA. A random point will be
@@ -41,7 +40,6 @@ Because of this, some points may be picked on the edge of the circle. This
 means that some of the calculated volume will protrude from the half-sphere.
 This will also occur on the z-axis for all calculations, as the volume formula
 does not take into account the curved surface area of the half-sphere.
-
 Method 2 is identical to method 1 except it will not use volumes that protrude
 from the sphere in its calculations. To do this, the quadrant radius (r) of
 area dA will be calculated using:
@@ -94,57 +92,41 @@ non_protruding_vol_list = []
 # Initialise random number generator
 rm.seed()
 
-# Iterate through number of specified iterations
-for i in range(iterations):
-    # Variable to store volume for method 1 (protruding volume)
-    protruding_vol = 0
-    # Variable to store volume for method 2 (non-protruding volume)
-    non_protruding_vol = 0
-    # Iterate through specified number of quadrants
-    for quadrant in range(quadrants):
-        # Method 1: Volumes may protrude from sphere
-        # Randomly generate & scale x coordinate in the range: -R <= x <= +R
-        x = 2 * R * rm.random() - R
-        # Calculate max possible y value at x coordinate
-        y_max = np.sqrt(R**2 - x**2)
-        # Generate & scale random y coordinate in the range: -y_max <= y <= +y_max
-        y = 2 * y_max * rm.random() - y_max
-        # Calculate z value at x and y coordinates, i.e. height of half-sphere
-        z = np.sqrt(R**2 - x**2 - y**2)
-        # Calculate and add the quadrant volume to total volume
-        protruding_vol += dA * z
+def calculate_x_y_z(R):
+    # Randomly generate and scale x
+    x = 2 * R * rm.random() - R
+    # Calculate max possible y values within the circle at x
+    y_max = np.sqrt(R**2 - x**2)
+    # Generate and scale random y value within the range: -y_max <= y <= +y_max
+    y = 2 * y_max * rm.random() - y_max
+    # Calculate z value at x and y
+    z = np.sqrt(R**2 - x**2 - y**2)
+    # Place x, y, and z in list
+    xyz = [x, y, z]
+    # Return x, y and z
+    return xyz
 
-        # Method 2: Volumes may not protrude from sphere
-        # Randomly generate & scale x coordinate in the range: -R_mod <= x <= +R_mod
-        x = 2 * R_mod * rm.random() - R_mod
-        # Calculate max possible y value at x coordinate
-        y_max = np.sqrt(R_mod**2 - x**2)
-        # Generate & scale random y coordinate in the range: -y_max <= y <= +y_max
-        y = 2 * y_max * rm.random() - y_max
-        # Calculate z value at x and y coordinates, i.e. height of half-sphere
-        z = np.sqrt(R**2 - x**2 - y**2)
-        # Calculate and add the quadrant volume to total volume
-        non_protruding_vol += dA * z
+# Variable to store volume for cuboid method
+cuboid_method_vol = 0
+# Variable to store volume for cylinder method
+cylinder_method_vol = 0
+# Loop through number of quadrants
+for i in range(quadrants):
+    # Method 1: Cuboid method - Volumes may protrude from sphere
+    # Calculate and unpack x, y, and z components using radius R
+    x, y, z = calculate_x_y_z(R)
+    # Calculate and add the quadrant volume to total volume
+    cuboid_method_vol += dA * z
+    
+    # Method 2: Cylinder method - Volumes may not protrude from sphere
+    # Calculate and unpack x, y, and z components using radius R_mod
+    x, y, z = calculate_x_y_z(R_mod)
+    # Calculate and add the quadrant volume to total volume
+    cylinder_method_vol += dA * z
 
-    # Append the method 1 volume calculation to list
-    protruding_vol_list.append(protruding_vol)
-    # Append the method 2 volume calculation to list
-    non_protruding_vol_list.append(non_protruding_vol)
-
-# Calculate the average volume for method 1 (protruding volume)
-protruding_vol_avg = np.mean(protruding_vol_list)
-# Calculate the standard deviation for method 1 (protruding volume)
-protruding_vol_std = np.std(protruding_vol_list)
-# Calculate the average volume for method 2 (non-protruding volume)
-non_protruding_vol_avg = np.mean(non_protruding_vol_list)
-# Calculate the standard deviation for method 2 (non-protruding volume)
-non_protruding_vol_std = np.std(non_protruding_vol_list)
-
-# Print the average volume and standard deviation for method 1 to the console
-print(f'Method 1 avg vol (protruding) - {protruding_vol_avg}')
-print(f'Standard deviation: {protruding_vol_std}\n')
-# Print the average volume and standard deviation for method 2 to the console
-print(f'Method 2 avg vol (non-protruding) - {non_protruding_vol_avg}')
-print(f'Standard deviation: {non_protruding_vol_std}\n')
-# Print the calculated volume of the half sphere to the console
-print(f'Calculated Volume - {half_sphere_vol}')
+# Print total volume of half sphere
+print(f'Cuboid method - {cuboid_method_vol}')
+# Print total volume of half sphere
+print(f'Cylinder method - {cylinder_method_vol}')
+# Print calculated volume of half sphere
+print(f'Calculated value - {half_sphere_vol}')
